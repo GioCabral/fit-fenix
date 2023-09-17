@@ -1,5 +1,6 @@
 package com.example.myapplicationfit
 
+import com.example.myapplicationfit.ui.components.SportItem
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import generateRandomSports
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,6 +154,16 @@ fun HomeScreen(navController: NavHostController) {
         Text(
             text = "Welcome to the Home Screen!",
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display the list of sports in a LazyColumn
+        val sportsList = generateRandomSports(10)
+        LazyColumn {
+            itemsIndexed(sportsList) { _, sport ->
+                SportItem(sport = sport)
+            }
+        }
 
         Button(
             onClick = {
