@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/login">
+
+    <!-- Define your destinations as composable -->
+    <composable
+        android:id="@+id/login"
+        android:name="com.example.myapplicationfit.LoginScreen"
+        android:label="Login"
+        tools:node="destination">
+    </composable>
+
+    <composable
+        android:id="@+id/home"
+        android:name="com.example.myapplicationfit.HomeScreen"
+        android:label="Home"
+        tools:node="destination">
+    </composable>
+
+</navigation>

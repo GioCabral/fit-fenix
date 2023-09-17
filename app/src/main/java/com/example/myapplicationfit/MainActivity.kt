@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,57 +17,47 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplicationfit.ui.theme.MyApplicationFitTheme
+import androidx.activity.compose.BackHandler
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApplicationFitTheme {
-                // State holders for email and password
-                var email by remember { mutableStateOf("Email") }
-                var password by remember { mutableStateOf("Password") }
+            val navController = rememberNavController()
 
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Greeting(email)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        TwoTextFields(
-                            email = email,
-                            onEmailChange = { email = it },
-                            password = password,
-                            onPasswordChange = { password = it }
-                        )
-                        CustomButton(onClick = { /* TODO: Add your logic here */ },
-                            modifier = Modifier
-                        )
+            MyApplicationFitTheme {
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") {
+                        // Pass navController to LoginScreen
+                        LoginScreen(navController = navController)
                     }
+                    composable("home"){
+                        HomeScreen(navController = navController)
+                    }
+                }
+            }
+
+            // Handle back navigation with BackHandler
+            BackHandler {
+                if (navController.currentBackStackEntry?.destination?.route != "login") {
+                    navController.navigateUp()
+                } else {
+                    // Handle back navigation or exit the app when on the login screen
+                    // For example, you can show a dialog or exit the app
+                    // Finish the app
+                    finish()
                 }
             }
         }
     }
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello, $name!",
-        modifier = modifier,
-        fontWeight = FontWeight.Bold
-    )
 }
 
 @Composable
@@ -120,11 +109,54 @@ fun TwoTextFields(email: String,
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    MyApplicationFitTheme {
-        Greeting("Camila")
+fun LoginScreen(navController: NavHostController) {
+    var email by remember { mutableStateOf("Email") }
+    var password by remember { mutableStateOf("Password") }
+
+    // A surface container using the 'background' color from the theme
+    Surface(
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            TwoTextFields(
+                email = email,
+                onEmailChange = { email = it },
+                password = password,
+                onPasswordChange = { password = it }
+            )
+            CustomButton(onClick = { navController.navigate("home") },
+                modifier = Modifier
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Welcome to the Home Screen!",
+        )
+
+        Button(
+            onClick = {
+                navController.navigate("login")
+            },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(text = "Logout")
+        }
     }
 }
