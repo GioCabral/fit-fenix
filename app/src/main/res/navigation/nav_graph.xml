@@ -19,4 +19,13 @@
         tools:node="destination">
     </composable>
 
+    <composable
+        android:id="@+id/sportDetail"
+        android:name="com.example.myapplicationfit.ui.sport.SportDetailScreenKt"
+        android:label="Sport Detail">
+        <argument
+            android:name="sportId"
+            app:argType="integer" />
+    </composable>
+
 </navigation>

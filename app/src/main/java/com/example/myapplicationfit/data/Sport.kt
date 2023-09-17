@@ -1,3 +1,3 @@
 package com.example.myapplicationfit.data
 
-data class Sport(val name: String)
+data class Sport(val id:Int, val name: String)

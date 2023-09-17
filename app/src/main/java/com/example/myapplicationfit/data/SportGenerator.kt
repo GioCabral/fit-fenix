@@ -1,15 +1,22 @@
-import com.github.javafaker.Faker
+package com.example.myapplicationfit.data
 
-data class Sport(val name: String)
+fun generateHardCodedSports(): List<Sport> {
 
-fun generateRandomSports(count: Int): List<Sport> {
-    val faker = Faker()
-    val sportsList = mutableListOf<Sport>()
+    return listOf(
+        Sport(1, "Soccer"),
+        Sport(2, "Basketball"),
+        Sport(3, "Tennis"),
+        Sport(4, "Baseball"),
+        Sport(5, "Golf"),
+        Sport(6, "Swimming"),
+        Sport(7, "Cycling"),
+        Sport(8, "Running"),
+        Sport(9, "Volleyball"),
+        Sport(10, "Hockey")
+    )
+}
 
-    repeat(count) {
-        val sportName = faker.team().sport()
-        sportsList.add(Sport(sportName))
-    }
-
-    return sportsList
+fun getSportById(sportId: Int): Sport? {
+    val sportsList = generateHardCodedSports()
+    return sportsList.find { it.id == sportId }
 }

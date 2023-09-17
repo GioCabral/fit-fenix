@@ -1,6 +1,6 @@
 package com.example.myapplicationfit.ui.components
 
-import Sport
+import com.example.myapplicationfit.data.Sport
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Text
 
 @Composable
-fun SportItem(sport: Sport) {
+fun SportItem(sport: Sport, onItemClick: (Sport) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { /* Handle click action here */ },
+            .clickable { onItemClick(sport) },
     ) {
         Text(
             text = sport.name,
